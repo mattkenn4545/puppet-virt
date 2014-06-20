@@ -22,10 +22,10 @@ Puppet::Type.type(:virt).provide(:libvirt) do
   end
 
   def hypervisor
-    #FIXME add support to autentication
+    #FIXME add support to authentication
     case resource[:virt_type]
       when :xen_fullyvirt, :xen_paravirt then "xen:///"
-      else "qemu:///session"
+      else "qemu:///system"
     end
   end
 
@@ -356,17 +356,6 @@ Puppet::Type.type(:virt).provide(:libvirt) do
     fail "Unable to stop the guest." if status != :stopped
     exec { @guest.max_memory=(mem) }
     start
-  end
-
-  def cpus
-    exec { @guest.num_vcpus 0 } #Why 0? See at http://www.libvirt.org/html/libvirt-libvirt.html#virDomainGetVcpusFlags
-  rescue Libvirt::RetrieveError => e
-    debug "Domain is not running, cannot evaluate cpus parameter"
-  end
-
-  def cpus=(value)
-    warn "It is not possible to set the # of cpus if the guest is not running." if status != :running
-    exec { @guest.vcpus=(value) }
   end
 
   # Not implemented by libvirt yet
