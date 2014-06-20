@@ -359,7 +359,7 @@ Puppet::Type.type(:virt).provide(:libvirt) do
   end
 
   def cpus
-    exec { @guest.vcpus 0 } #Why 0? See at http://www.libvirt.org/html/libvirt-libvirt.html#virDomainGetVcpusFlags
+    exec { @guest.get_vcpus 0 } #Why 0? See at http://www.libvirt.org/html/libvirt-libvirt.html#virDomainGetVcpusFlags
     rescue Libvirt::RetrieveError => e
       debug "Domain is not running, cannot evaluate cpus parameter"
   end
