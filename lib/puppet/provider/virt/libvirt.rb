@@ -99,7 +99,7 @@ Puppet::Type.type(:virt).provide(:libvirt) do
     end
 
     max_cpus = Facter.value('processorcount')
-    arguments << ["--vcpus=#{resource[:cpus]},maxvcpus=#{max_cpus}  --os-type=linux --os-variant=ubuntuprecise "]
+    arguments << ["--vcpus=#{resource[:cpus]},maxvcpus=#{max_cpus} --os-type=linux --os-variant=ubuntuprecise "]
 
     arguments << diskargs
     arguments << bootorderargs
