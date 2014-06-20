@@ -31,7 +31,6 @@ Puppet::Type.type(:virt).provide(:libvirt) do
 
   # Executes operation over guest
   def exec
-    sleep(1)
     conn = Libvirt::open(hypervisor)
     @guest = conn.lookup_domain_by_name(resource[:name])
     ret = yield if block_given?
