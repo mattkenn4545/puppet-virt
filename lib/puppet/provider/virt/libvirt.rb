@@ -84,7 +84,7 @@ Puppet::Type.type(:virt).provide(:libvirt) do
       when :xen_paravirt then "--paravirt" #Must validate kernel support
       when :kvm then "--accelerate" #Must validate hardware support
     end
-    arguments = ["--name", resource[:name], "--ram", resource[:memory], "--noautoconsole", "--force", virt_parameter]
+    arguments = ["--name", resource[:name], "--ram", resource[:memory], "--noautoconsole", "--force", virt_parameter, "--os-type=linux --os-variant=ubuntuprecise"]
 
     if !bootoninstall
       arguments << "--noreboot"
@@ -99,7 +99,7 @@ Puppet::Type.type(:virt).provide(:libvirt) do
     end
 
     max_cpus = Facter.value('processorcount')
-    arguments << ["--vcpus=#{resource[:cpus]},maxvcpus=#{max_cpus}} --os-type=linux --os-variant=ubuntuprecise"]
+    arguments << ["--vcpus=#{resource[:cpus]},maxvcpus=#{max_cpus}"]
 
     arguments << diskargs
     arguments << bootorderargs
