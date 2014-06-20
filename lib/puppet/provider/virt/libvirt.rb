@@ -144,7 +144,7 @@ Puppet::Type.type(:virt).provide(:libvirt) do
     parameters = ""
     parameters = resource[:virt_path] if resource[:virt_path]
     parameters.concat("," + resource[:disk_size]) if resource[:disk_size]
-    parameters.concat(",bus=virtio") if resource[:virtio_for_disks] == 'true' 
+    parameters.concat(",bus=virtio") if resource[:virtio_for_disks] == :true
     parameters.empty? ? [] : ["--disk", parameters]
   end
 
@@ -152,7 +152,7 @@ Puppet::Type.type(:virt).provide(:libvirt) do
     disks = resource[:virt_disks]
     args = []
     parameters = ""
-    parameters.concat(",bus=virtio") if resource[:virtio_for_disks] == 'true'
+    parameters.concat(",bus=virtio") if resource[:virtio_for_disks] == :true
       disks.each do |key,value|
         size_str = value.to_i == 0 ? "" : ",size=#{value}"
         args << ["--disk", "path=#{key}#{size_str}"+parameters]
@@ -160,7 +160,7 @@ Puppet::Type.type(:virt).provide(:libvirt) do
     args
   end
 
-  # Additional boot arguments  #FIXME 
+  # Additional boot arguments  #FIXME
   def bootargs
     debug "Bootargs"
     resource[:kickstart] ? ["-x", resource[:kickstart]] : [] #kickstart support
@@ -175,7 +175,7 @@ Puppet::Type.type(:virt).provide(:libvirt) do
     debug "Network paramenters"
     network = []
     parameters = ""
-    parameters.concat(",model=virtio") if resource[:virtio_for_net] == 'true'
+    parameters.concat(",model=virtio") if resource[:virtio_for_net] == :true
 
     iface = resource[:interfaces]
     case iface
