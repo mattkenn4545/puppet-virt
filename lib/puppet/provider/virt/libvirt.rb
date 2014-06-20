@@ -358,6 +358,17 @@ Puppet::Type.type(:virt).provide(:libvirt) do
     start
   end
 
+  def cpus
+    exec { @guest.vcpus 0 } #Why 0? See at http://www.libvirt.org/html/libvirt-libvirt.html#virDomainGetVcpusFlags
+  rescue Libvirt::RetrieveError => e
+    debug "Domain is not running, cannot evaluate cpus parameter"
+  end
+
+  def cpus=(value)
+    warn "It is not possible to set the # of cpus if the guest is not running." if status != :running
+    exec { @guest.vcpus=(value) }
+  end
+
   # Not implemented by libvirt yet
   def on_poweroff
     #TODO refactor
