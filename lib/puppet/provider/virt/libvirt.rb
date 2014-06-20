@@ -359,7 +359,7 @@ Puppet::Type.type(:virt).provide(:libvirt) do
   end
 
   def cpus
-
+    exec { @guest.vcpus }
   end
 
   def cpus=(value)
