@@ -148,18 +148,6 @@ Puppet::Type.type(:virt).provide(:libvirt) do
     parameters.empty? ? [] : ["--disk", parameters]
   end
 
-  def additional_diskargs
-    disks = resource[:virt_disks]
-    args = []
-    parameters = ""
-    parameters.concat(",bus=virtio") if resource[:virtio_for_disks] == :true
-      disks.each do |key,value|
-        size_str = value.to_i == 0 ? "" : ",size=#{value}"
-        args << ["--disk", "path=#{key}#{size_str}"+parameters]
-      end
-    args
-  end
-
   # Additional boot arguments  #FIXME
   def bootargs
     debug "Bootargs"
