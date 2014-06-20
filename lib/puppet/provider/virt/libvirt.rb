@@ -358,6 +358,10 @@ Puppet::Type.type(:virt).provide(:libvirt) do
     start
   end
 
+  def cpus
+
+  end
+
   def cpus=(value)
     warn "It is not possible to set the # of cpus if the guest is not running." if status != :running
     exec { @guest.vcpus=(value) }
